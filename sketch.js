@@ -9,7 +9,7 @@ function getTransform () {
     let xDiff;
     let yDiff;
 
-    if (touches.length == 1){
+    if (touches.length == 1 && keyIsDown(32)){
         xDiff = width/2 - touches[0].x;
         yDiff = height/2 - touches[0].y;
     }
