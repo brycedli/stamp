@@ -28,7 +28,7 @@ function getTransform () {
         return [];
     }
 
-    return [touches[0].x + xDiff/2, touches[0].y + yDiff/2, 90, getTouchAngle(xDiff, yDiff), sqrt(sq(xDiff) + sq(yDiff))];
+    return [touches[0].x + xDiff/2, touches[0].y + yDiff/2, 120, getTouchAngle(xDiff, yDiff), sqrt(sq(xDiff) + sq(yDiff))];
     //     0                        1                       2   3                            4
 }
 
@@ -80,7 +80,7 @@ function draw() {
     let imageAspectRatio = backgroundImage.height / backgroundImage.width;
     image(backgroundImage, 0, 0, width, width*imageAspectRatio);
     fill('magenta');
-    rectMode(CENTER);
+    
     // text(displayText, width/2, height/2);
     for (var i = 0; i < stamps.length; i++) {
         stamps[i].drawStamp();
@@ -113,14 +113,15 @@ class Stamp {
         
         translate(this.x, this.y);
         rotate(this.rotation);
+        imageMode(CENTER)
 
         if (this.distance < 85){
             // fill('magenta');
-            image(planeImage, 0, 0, this.size, this.size);
+            image(planeImage, 0,0, this.size, this.size);
         }
         else{
             // fill('cyan')
-            image(commentImage, 0, 0, this.size, this.size);
+            image(commentImage, 0,0, this.size, this.size);
         }
 
         // rect(0, 0, this.size, this.size);
