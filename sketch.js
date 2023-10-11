@@ -1,7 +1,14 @@
 let stamps = [];
 let displayText = "test";
+let backgroundImage = "https://i.imgur.com/ZIPdlrR.png";
+let planeImage = "https://i.imgur.com/89q9C8X.png";
+let commentImage = "https://i.imgur.com/vgTGCeu.png";
+
 function setup() {
     // set canvas to window size
+    backgroundImage = loadImage(backgroundImage);
+    planeImage = loadImage(planeImage);
+    commentImage = loadImage(commentImage);
     createCanvas(windowWidth, windowHeight);
 }
 
@@ -21,7 +28,7 @@ function getTransform () {
         return [];
     }
 
-    return [touches[0].x + xDiff/2, touches[0].y + yDiff/2, 50, getTouchAngle(xDiff, yDiff), sqrt(sq(xDiff) + sq(yDiff))];
+    return [touches[0].x + xDiff/2, touches[0].y + yDiff/2, 90, getTouchAngle(xDiff, yDiff), sqrt(sq(xDiff) + sq(yDiff))];
     //     0                        1                       2   3                            4
 }
 
@@ -69,17 +76,22 @@ function touchStarted () {
 
 function draw() {
     background(255);
+    rectMode(CORNER);
+    let imageAspectRatio = backgroundImage.height / backgroundImage.width;
+    image(backgroundImage, 0, 0, width, width*imageAspectRatio);
     fill('magenta');
     rectMode(CENTER);
     // text(displayText, width/2, height/2);
     for (var i = 0; i < stamps.length; i++) {
         stamps[i].drawStamp();
     }
-
-    for (var i = 0; i < touches.length; i++) {
-        ellipse(touches[i].x, touches[i].y, 50, 50);
-        ellipse(width/2, height/2, 50, 50);
+    if (keyIsDown(32)){
+        for (var i = 0; i < touches.length; i++) {
+            ellipse(touches[i].x, touches[i].y, 50, 50);
+            ellipse(width/2, height/2, 50, 50);
+        }
     }
+    
 }
 
 class Stamp {
@@ -97,16 +109,21 @@ class Stamp {
     drawStamp () {
         push();
         
-        if (this.distance < 85){
-            fill('magenta');
-        }
-        else{
-            fill('cyan')
-        }
+        
         
         translate(this.x, this.y);
         rotate(this.rotation);
-        rect(0, 0, this.size, this.size);
+
+        if (this.distance < 85){
+            // fill('magenta');
+            image(planeImage, 0, 0, this.size, this.size);
+        }
+        else{
+            // fill('cyan')
+            image(commentImage, 0, 0, this.size, this.size);
+        }
+
+        // rect(0, 0, this.size, this.size);
         pop();
     }
 }
