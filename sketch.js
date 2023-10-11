@@ -41,14 +41,6 @@ function touchMoved () {
     if (stamps.length > 0){
         let t = getTransform();
         stamps[stamps.length-1].updateTransform(t[0], t[1], t[2], t[3], t[4]);
-        // let closestIndex = findClosestStampIndex (stamps, t[4], 10);
-        // if (closestIndex == -1) {
-        //     stamps[stamps.length-1].updateTransform(t[0], t[1], t[2], t[3], t[4]);
-        // }
-        // else{
-        //     stamps[closestIndex].updateTransform(t[0], t[1], t[2], t[3], t[4]);
-        // }
-        
     }
 }
 
@@ -79,7 +71,7 @@ function draw() {
     background(255);
     fill('magenta');
     rectMode(CENTER);
-    text(displayText, width/2, height/2);
+    // text(displayText, width/2, height/2);
     for (var i = 0; i < stamps.length; i++) {
         stamps[i].drawStamp();
     }
@@ -105,6 +97,12 @@ class Stamp {
     drawStamp () {
         push();
         
+        if (this.distance < 85){
+            fill('magenta');
+        }
+        else{
+            fill('cyan')
+        }
         
         translate(this.x, this.y);
         rotate(this.rotation);
