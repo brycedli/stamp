@@ -1,5 +1,5 @@
 let stamps = [];
-let currentStampIndex;
+let displayText = "test";
 function setup() {
     // set canvas to window size
     createCanvas(windowWidth, windowHeight);
@@ -36,16 +36,18 @@ function getTouchAngle(xDiff,yDiff) {
     return theta;
 }
 
+
 function touchMoved () {
     if (stamps.length > 0){
         let t = getTransform();
-        let closestIndex = findClosestStampIndex (stamps, t[4], 10);
-        if (closestIndex == -1) {
-            stamps[stamps.length-1].updateTransform(t[0], t[1], t[2], t[3], t[4]);
-        }
-        else{
-            stamps[closestIndex].updateTransform(t[0], t[1], t[2], t[3], t[4]);
-        }
+        stamps[stamps.length-1].updateTransform(t[0], t[1], t[2], t[3], t[4]);
+        // let closestIndex = findClosestStampIndex (stamps, t[4], 10);
+        // if (closestIndex == -1) {
+        //     stamps[stamps.length-1].updateTransform(t[0], t[1], t[2], t[3], t[4]);
+        // }
+        // else{
+        //     stamps[closestIndex].updateTransform(t[0], t[1], t[2], t[3], t[4]);
+        // }
         
     }
 }
@@ -68,28 +70,21 @@ function findClosestStampIndex (_stamps, distance, threshold) {
 function touchStarted () {
     let t = getTransform();
     if (touches.length == 2 || (touches.length == 1 && keyIsDown(32))){
-        let closestIndex = findClosestStampIndex (stamps, t[4], 10);
-        print(closestIndex);
-        if (closestIndex == -1){
-            currentStampIndex = stamps.push(new Stamp (t[0], t[1], t[2], t[3], t[4]));
-        }
-        
+        displayText = t[4];
+        stamps.push(new Stamp (t[0], t[1], t[2], t[3], t[4]));     
     }
-    
-    
 }
 
 function draw() {
     background(255);
     fill('magenta');
     rectMode(CENTER);
-
+    text(displayText, width/2, height/2);
     for (var i = 0; i < stamps.length; i++) {
         stamps[i].drawStamp();
     }
 
     for (var i = 0; i < touches.length; i++) {
-        
         ellipse(touches[i].x, touches[i].y, 50, 50);
         ellipse(width/2, height/2, 50, 50);
     }
@@ -97,6 +92,7 @@ function draw() {
 
 class Stamp {
     constructor (x, y, size, rotation, distance){
+        
         this.updateTransform(x, y, size, rotation, distance);
     }
     updateTransform (x, y, size, rotation, distance) {
